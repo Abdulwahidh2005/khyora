@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { initKhyora } from './khyora.motion.js';
 
 /* ---------- DATA ---------- */
@@ -21,9 +21,18 @@ const FAQ = [
   ['How biodegradable is it after flushing?', 'Once flushed, Khyora disintegrates into soft biodegradable fibres that break down naturally — returning safely to the environment rather than persisting for centuries like plastic-based products.'],
 ];
 
+const TEAM = [
+  ['Subha Harini', 'CEO', '/assets/team-subha.jpg', 'Fashion Technologist and researcher with expertise in product development, prototyping, and innovation-driven design. Recipient of the Vikram Sarabhai Award and multiple Mahatma Gandhi Merit Scholarships, with experience in research, leadership, and multidisciplinary project development. Leads technology, product innovation, and strategic development at Khyora, transforming sustainable ideas into scalable solutions that create meaningful social and environmental impact.'],
+  ['Kavinaya', 'Supply Chain Executive', '/assets/team-kavinaya.jpg', 'Fashion Technologist specializing in product development, prototyping, supply chain management, and manufacturing operations. Combines research-driven innovation with expertise in procurement, logistics, quality assurance, and production planning to transform concepts into scalable, market-ready solutions. Leads supply chain and production functions at Khyora, overseeing sourcing, manufacturing coordination, operational efficiency, and sustainable product delivery while supporting continuous innovation and product advancement.'],
+  ['Brathikan', 'COO', '/assets/team-brathikan.jpg', 'Chevening Scholar and MSc graduate in Sustainable Energy Systems from the University of Edinburgh. Founder of REACT and Co-founder of multiple sustainability-driven ventures, with expertise in systems thinking, CFD, FEA, renewable energy technologies, and innovation-led product development. Leads research strategy, ecosystem partnerships, and implementation frameworks to translate innovative ideas into scalable solutions with real-world impact.'],
+  ['Krisnan', 'Research & Innovation Engineer', '/assets/team-krisnan.jpg', 'Mechanical Engineer and researcher with expertise in renewable energy systems, product design, and sustainable technology development. Award-winning innovator recognized through national research and engineering competitions, with experience in R&D, energy engineering, and prototype development. Leads research and innovation initiatives, driving product improvement, technical validation, and the development of sustainable solutions from concept to implementation.'],
+];
+
 const MARQUEE = ['Flushable', 'Bio-Based', 'Plastic-Free', 'Biodegradable', 'Comfort', 'Confidence'];
 
 export default function App() {
+  const [active, setActive] = useState(0);
+
   useEffect(() => {
     initKhyora();
   }, []);
@@ -49,6 +58,7 @@ export default function App() {
           <a href="#explore">Explore</a>
           <a href="#product">Product</a>
           <a href="#impact">Impact</a>
+          <a href="#team">Team</a>
           <a href="#faq">FAQ</a>
           <a href="#contact">Contact</a>
         </div>
@@ -249,6 +259,42 @@ export default function App() {
           </div>
         </section>
 
+        {/* TEAM */}
+        <section className="team" id="team" data-screen-label="Team">
+          <div className="wrap">
+            <div className="team__head">
+              <div className="reveal"><span className="eyebrow">The People Behind Khyora</span></div>
+              <h2 className="serif" data-split>Meet the team.</h2>
+              <p className="lead reveal" style={{ maxWidth: '40ch' }}>A multidisciplinary team turning sustainable ideas into real-world impact.</p>
+            </div>
+            <div className="taccordion reveal">
+              {TEAM.map(([name, role, photo, bio], i) => (
+                <Fragment key={name}>
+                  <button
+                    type="button"
+                    className="tpanel"
+                    data-active={active === i}
+                    onClick={() => setActive(i)}
+                    aria-label={`Show ${name}`}
+                    data-cursor="view"
+                  >
+                    <img className="tpanel__img" src={photo} alt={name} loading="lazy" />
+                    <span className="tpanel__name">{name}</span>
+                  </button>
+                  <div className="tcard" data-open={active === i} aria-hidden={active !== i}>
+                    <div className="tcard__inner">
+                      <span className="tcard__mark" aria-hidden="true">&rdquo;</span>
+                      <h4>{name}</h4>
+                      <span className="tcard__role">{role}</span>
+                      <p>{bio}</p>
+                    </div>
+                  </div>
+                </Fragment>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* MARQUEE */}
         <section className="marquee" aria-hidden="true" data-screen-label="Marquee">
           <div className="marquee__track" id="marquee">
@@ -273,7 +319,7 @@ export default function App() {
               </div>
               <div className="footer__col reveal">
                 <h5>Contact</h5>
-                <a href="mailto:hello@khyora.com" data-cursor="email">hello@khyora.com</a>
+                <a href="mailto:react@kct.ac.in" data-cursor="email">react@kct.ac.in</a>
                 <a href="tel:9976139198" data-cursor="call">9976139198</a>
                 <h5 style={{ marginTop: '1.6rem' }}>Follow</h5>
                 <a href="#" data-cursor="">Instagram</a>

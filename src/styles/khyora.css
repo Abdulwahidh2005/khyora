@@ -344,6 +344,86 @@ p.body{max-width:58ch;color:var(--ink-soft)}
 .fcard p{font-size:.92rem;color:var(--ink-soft);line-height:1.5}
 @media (max-width:1080px){ .fgrid{grid-template-columns:repeat(2,1fr)} }
 
+/* ---------- TEAM ---------- */
+.team{padding:clamp(6rem,12vh,10rem) 0}
+.team__head{text-align:center;max-width:46ch;margin:0 auto clamp(2.4rem,5vw,4rem)}
+.team__head .eyebrow{justify-content:center}
+.team__head h2{font-size:var(--fs-h2);margin:1.1rem 0 .9rem}
+.team__head p{margin-inline:auto}
+/* Click-to-select strip: fixed-size photos + a separate sliding description card */
+.taccordion{
+  display:flex;justify-content:center;align-items:stretch;
+  height:min(72vh,560px);min-height:440px;gap:0;overflow:hidden;
+  /* full-bleed: break out of the narrow text column so photos have room.
+     calc(50% - 50vw) margins span the viewport while staying in normal flow;
+     justify-content:center keeps the photos+card group centered. */
+  width:auto;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+  padding-inline:clamp(1rem,4vw,3rem);
+}
+/* fixed-size photo button — never resizes */
+.tpanel{
+  flex:0 0 clamp(160px,15vw,215px);position:relative;height:100%;
+  margin-inline:.3rem;border:0;padding:0;border-radius:18px;overflow:hidden;
+  cursor:pointer;background:var(--green-deep);
+  -webkit-tap-highlight-color:transparent;
+}
+.tpanel__img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center top;
+  filter:grayscale(1) brightness(.74) contrast(1.02);
+  transition:filter .6s var(--ease-out),transform 1s var(--ease-out);
+}
+.tpanel[data-active="true"] .tpanel__img{filter:none;transform:scale(1.04)}
+/* name label on each photo; hidden once that photo is active */
+.tpanel__name{
+  position:absolute;left:0;right:0;bottom:1.1rem;z-index:2;text-align:center;
+  font-family:var(--serif);font-size:1.05rem;font-weight:600;color:var(--ivory);
+  letter-spacing:.01em;text-shadow:0 2px 14px rgba(0,0,0,.6);
+  opacity:.94;transition:opacity .4s var(--ease-out);padding-inline:.4rem;
+}
+.tpanel[data-active="true"] .tpanel__name{opacity:0}
+
+/* separate description card — width animates open beside the active photo */
+.tcard{
+  flex:0 0 0;align-self:stretch;overflow:hidden;border-radius:18px;
+  background:var(--green-deep);color:var(--ivory);
+  transition:flex-basis .65s var(--ease-out),margin .65s var(--ease-out);
+  will-change:flex-basis;
+}
+.tcard[data-open="true"]{flex-basis:clamp(280px,30vw,420px);margin-inline:.3rem}
+.tcard__inner{
+  position:relative;width:clamp(280px,30vw,420px);height:100%;
+  display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(1.6rem,2.6vw,2.6rem);
+  opacity:0;transition:opacity .5s var(--ease-out) .15s;
+}
+.tcard[data-open="true"] .tcard__inner{opacity:1}
+.tcard__mark{
+  position:absolute;top:clamp(.6rem,2vw,1.4rem);right:clamp(1rem,2.4vw,2rem);
+  font-family:var(--serif);font-size:clamp(5rem,9vw,8rem);line-height:1;
+  color:rgba(110,154,124,.32);font-weight:700;pointer-events:none;
+}
+.tcard__inner h4{font-family:var(--serif);font-size:clamp(1.5rem,2.4vw,2.1rem);font-weight:600;line-height:1.08}
+.tcard__role{
+  display:block;margin:.5rem 0 1.1rem;font-size:.74rem;letter-spacing:.18em;
+  text-transform:uppercase;font-weight:600;color:var(--sage);
+}
+.tcard__inner p{font-size:.9rem;line-height:1.6;color:rgba(247,243,236,.82);max-width:34ch}
+
+/* ---- touch / small screens: vertical stack, card expands below its photo ---- */
+@media (max-width:760px){
+  .taccordion{flex-direction:column;height:auto;min-height:0;overflow:visible;
+    margin-inline:0;padding-inline:0}
+  .tpanel{flex:none;width:100%;height:min(96vw,420px);margin:0 0 .2rem}
+  .tpanel__img{filter:none;transform:none}
+  .tpanel[data-active="true"] .tpanel__img{transform:none}
+  .tpanel__name{display:none}
+  .tcard{flex:none;width:100%;max-height:0;margin:0;border-radius:0 0 18px 18px;
+    transition:max-height .6s var(--ease-out)}
+  .tcard[data-open="true"]{max-height:640px;margin:0 0 1rem}
+  .tcard__inner{width:100%}
+}
+
 /* ---------- IMPACT / DISSOLVE ---------- */
 .impact{background:var(--green-deep);color:var(--ivory);padding:clamp(7rem,14vh,12rem) 0;position:relative;overflow:hidden;border-radius:48px 48px 0 0}
 .impact .eyebrow{color:var(--blush)}
